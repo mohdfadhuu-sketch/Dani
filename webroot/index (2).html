@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LOOMIX — Wear Your Light</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --black: #0c0b0d;
+    --charcoal: #1c1a1e;
+    --pink: #ff2d78;
+    --pink-deep: #c2185b;
+    --pink-soft: #ffc2dc;
+    --bone: #f4eef1;
+    --grey: #8f8a90;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--black);
+    color:var(--bone);
+    font-family:'Inter',sans-serif;
+    overflow-x:hidden;
+  }
+  h1,h2,h3,.display{
+    font-family:'Bebas Neue',sans-serif;
+    letter-spacing:0.02em;
+    line-height:0.95;
+  }
+  a{text-decoration:none;color:inherit;}
+  ul{list-style:none;}
+
+  /* ---------- NAV ---------- */
+  header{
+    position:fixed;top:0;left:0;right:0;
+    display:flex;align-items:center;justify-content:space-between;
+    padding:22px 48px;
+    z-index:100;
+    background:linear-gradient(to bottom, rgba(12,11,13,0.9), transparent);
+  }
+  .brand{display:flex;align-items:center;gap:12px;}
+  .logo-mark{
+    width:42px;height:42px;
+    border-radius:50%;
+    background:var(--pink);
+    display:flex;align-items:center;justify-content:center;
+    font-family:'Bebas Neue',sans-serif;
+    font-size:20px;
+    color:var(--black);
+    flex-shrink:0;
+  }
+  .brand-name{font-size:22px;letter-spacing:0.08em;font-family:'Bebas Neue',sans-serif;}
+  nav ul{display:flex;gap:36px;font-size:14px;font-weight:500;}
+  nav a{opacity:0.85;transition:opacity 0.2s;}
+  nav a:hover{opacity:1;color:var(--pink);}
+  .nav-cta{
+    padding:10px 22px;border:1px solid var(--pink);border-radius:2px;
+    font-size:13px;font-weight:600;
+  }
+  .menu-toggle{display:none;font-size:26px;background:none;border:none;color:var(--bone);cursor:pointer;}
+
+  /* ---------- HERO ---------- */
+  .hero{
+    position:relative;
+    min-height:100vh;
+    display:flex;
+    align-items:flex-end;
+    padding:0 48px 90px;
+    background:
+      linear-gradient(100deg, var(--black) 0%, var(--black) 52%, var(--pink) 52%, var(--pink-deep) 100%);
+    clip-path: none;
+  }
+  .hero::before{
+    content:"";
+    position:absolute; inset:0;
+    background:
+      radial-gradient(circle at 20% 30%, rgba(255,45,120,0.12), transparent 40%);
+    pointer-events:none;
+  }
+  .hero-content{
+    position:relative;
+    max-width:760px;
+    z-index:2;
+  }
+  .hero-eyebrow{
+    font-size:14px;
+    color:var(--pink-soft);
+    font-weight:600;
+    margin-bottom:18px;
+  }
+  .hero h1{
+    font-size:clamp(58px, 11vw, 140px);
+    color:var(--bone);
+  }
+  .hero h1 span{display:block;color:var(--pink);}
+  .hero p{
+    max-width:420px;
+    margin-top:24px;
+    font-size:16px;
+    line-height:1.6;
+    color:var(--grey);
+  }
+  .hero-actions{
+    margin-top:34px;
+    display:flex;
+    gap:18px;
+    align-items:center;
+  }
+  .btn-solid{
+    background:var(--pink);
+    color:var(--black);
+    padding:16px 34px;
+    font-weight:700;
+    font-size:14px;
+    border-radius:2px;
+    display:inline-block;
+    transition:transform 0.2s ease;
+  }
+  .btn-solid:hover{transform:translateY(-2px);}
+  .btn-ghost{
+    color:var(--bone);
+    font-size:14px;
+    font-weight:600;
+    border-bottom:1px solid var(--grey);
+    padding-bottom:3px;
+  }
+
+  .hero-side{
+    position:absolute;
+    right:48px; top:50%;
+    transform:translateY(-50%);
+    writing-mode:vertical-rl;
+    font-size:13px;
+    letter-spacing:0.25em;
+    color:var(--black);
+    font-weight:600;
+    z-index:2;
+  }
+
+  /* ---------- MARQUEE ---------- */
+  .marquee{
+    background:var(--pink);
+    color:var(--black);
+    overflow:hidden;
+    white-space:nowrap;
+    padding:14px 0;
+    font-family:'Bebas Neue',sans-serif;
+    font-size:20px;
+    letter-spacing:0.05em;
+  }
+  .marquee-track{
+    display:inline-block;
+    animation:scroll 22s linear infinite;
+  }
+  .marquee-track span{margin:0 28px;}
+  @keyframes scroll{
+    0%{transform:translateX(0);}
+    100%{transform:translateX(-50%);}
+  }
+
+  /* ---------- COLLECTION ---------- */
+  .section{padding:110px 48px;}
+  .section-head{
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-end;
+    margin-bottom:56px;
+    flex-wrap:wrap;
+    gap:20px;
+  }
+  .section-head h2{font-size:clamp(38px,5vw,64px);}
+  .section-head p{max-width:320px;color:var(--grey);font-size:14px;line-height:1.6;}
+
+  .grid{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:22px;
+  }
+  .card{
+    background:var(--charcoal);
+    border-radius:4px;
+    overflow:hidden;
+    transition:transform 0.25s ease;
+  }
+  .card:hover{transform:translateY(-6px);}
+  .card-visual{
+    aspect-ratio:3/4;
+    position:relative;
+    display:flex;align-items:flex-end;
+    padding:16px;
+  }
+  .card:nth-child(1) .card-visual{background:linear-gradient(160deg,var(--pink) 0%, #7a1338 100%);}
+  .card:nth-child(2) .card-visual{background:linear-gradient(160deg,#2a2830 0%, var(--black) 100%);}
+  .card:nth-child(3) .card-visual{background:linear-gradient(160deg,var(--pink-soft) 0%, var(--pink) 100%);}
+  .card:nth-child(4) .card-visual{background:linear-gradient(160deg,#3a2530 0%, var(--black) 100%);}
+  .card-tag{
+    font-size:11px;font-weight:700;letter-spacing:0.08em;
+    background:rgba(12,11,13,0.55);
+    padding:5px 10px;border-radius:20px;
+  }
+  .card-info{padding:18px 16px 22px;}
+  .card-info h3{font-family:'Inter',sans-serif;font-size:15px;font-weight:600;margin-bottom:6px;}
+  .card-info .price{color:var(--pink);font-weight:700;font-size:14px;}
+
+  /* ---------- STORY ---------- */
+  .story{
+    background:var(--pink);
+    color:var(--black);
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    align-items:center;
+    gap:60px;
+    padding:110px 48px;
+  }
+  .story h2{font-size:clamp(40px,6vw,80px);}
+  .story p{font-size:16px;line-height:1.7;margin-top:20px;max-width:440px;}
+  .story-block{
+    background:var(--black);
+    border-radius:6px;
+    aspect-ratio:4/5;
+    position:relative;
+    overflow:hidden;
+  }
+  .story-block::after{
+    content:"LX";
+    position:absolute;
+    font-family:'Bebas Neue',sans-serif;
+    font-size:220px;
+    color:rgba(255,45,120,0.15);
+    right:-30px;bottom:-60px;
+  }
+
+  /* ---------- NEWSLETTER ---------- */
+  .newsletter{
+    text-align:center;
+    padding:120px 48px;
+  }
+  .newsletter h2{font-size:clamp(40px,7vw,90px);margin-bottom:18px;}
+  .newsletter p{color:var(--grey);margin-bottom:36px;}
+  form{
+    display:flex;
+    justify-content:center;
+    gap:0;
+    max-width:440px;
+    margin:0 auto;
+    border:1px solid var(--grey);
+    border-radius:2px;
+    overflow:hidden;
+  }
+  form input{
+    flex:1;
+    background:transparent;
+    border:none;
+    padding:16px 20px;
+    color:var(--bone);
+    font-size:14px;
+  }
+  form input:focus{outline:none;}
+  form button{
+    background:var(--pink);
+    color:var(--black);
+    border:none;
+    padding:0 26px;
+    font-weight:700;
+    font-size:14px;
+    cursor:pointer;
+  }
+
+  /* ---------- FOOTER ---------- */
+  footer{
+    border-top:1px solid var(--charcoal);
+    padding:48px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    flex-wrap:wrap;
+    gap:20px;
+    font-size:13px;
+    color:var(--grey);
+  }
+  footer .brand{opacity:0.9;}
+  footer ul{display:flex;gap:24px;}
+  footer a:hover{color:var(--pink);}
+
+  @media (max-width:900px){
+    .grid{grid-template-columns:repeat(2,1fr);}
+    .story{grid-template-columns:1fr;}
+    nav ul{display:none;}
+    .menu-toggle{display:block;}
+    .hero-side{display:none;}
+  }
+  @media (max-width:560px){
+    header{padding:18px 20px;}
+    .section{padding:80px 20px;}
+    .grid{grid-template-columns:1fr 1fr;gap:14px;}
+    .hero{padding:0 20px 60px;}
+    form{flex-direction:column;border:none;gap:10px;}
+    form input,form button{border:1px solid var(--grey);border-radius:2px;padding:14px 16px;}
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    .marquee-track{animation:none;}
+    .card{transition:none;}
+  }
+
+  :focus-visible{outline:2px solid var(--pink);outline-offset:3px;}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="brand">
+    <div class="logo-mark">LX</div>
+    <span class="brand-name">LOOMIX</span>
+  </div>
+  <nav>
+    <ul>
+      <li><a href="#collection">New Drops</a></li>
+      <li><a href="#story">Story</a></li>
+      <li><a href="#newsletter">Join</a></li>
+      <li><a href="#footer">Contact</a></li>
+    </ul>
+  </nav>
+  <a href="#collection" class="nav-cta">Shop Now</a>
+  <button class="menu-toggle" aria-label="Menu">☰</button>
+</header>
+
+<section class="hero">
+  <div class="hero-content">
+    <p class="hero-eyebrow">Autumn / Winter Capsule</p>
+    <h1>WEAR<span>THE LIGHT</span></h1>
+    <p>Loomix is streetwear built for after dark — clean silhouettes, heavyweight fabric, and a shot of pink where you least expect it.</p>
+    <div class="hero-actions">
+      <a href="#collection" class="btn-solid">Shop the Drop</a>
+      <a href="#story" class="btn-ghost">Our Story</a>
+    </div>
+  </div>
+  <div class="hero-side">EST. KERALA — LOOMIX CLOTHING CO.</div>
+</section>
+
+<div class="marquee">
+  <div class="marquee-track">
+    <span>NEW DROP EVERY FRIDAY</span><span>·</span>
+    <span>FREE SHIPPING OVER ₹1999</span><span>·</span>
+    <span>LIMITED STOCK</span><span>·</span>
+    <span>NEW DROP EVERY FRIDAY</span><span>·</span>
+    <span>FREE SHIPPING OVER ₹1999</span><span>·</span>
+    <span>LIMITED STOCK</span><span>·</span>
+  </div>
+</div>
+
+<section class="section" id="collection">
+  <div class="section-head">
+    <h2>Featured Pieces</h2>
+    <p>Four staples from the current capsule — swap in your own product photos when you're ready to launch.</p>
+  </div>
+  <div class="grid">
+    <div class="card">
+      <div class="card-visual"><span class="card-tag">New</span></div>
+      <div class="card-info"><h3>Oversized Hoodie — Blackout Pink</h3><span class="price">₹1,899</span></div>
+    </div>
+    <div class="card">
+      <div class="card-visual"><span class="card-tag">Bestseller</span></div>
+      <div class="card-info"><h3>Boxy Tee — Midnight</h3><span class="price">₹899</span></div>
+    </div>
+    <div class="card">
+      <div class="card-visual"><span class="card-tag">New</span></div>
+      <div class="card-info"><h3>Cargo Pants — Soft Rose</h3><span class="price">₹1,699</span></div>
+    </div>
+    <div class="card">
+      <div class="card-visual"><span class="card-tag">Restocked</span></div>
+      <div class="card-info"><h3>Varsity Jacket — Onyx</h3><span class="price">₹2,999</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="story" id="story">
+  <div>
+    <h2>Built in the dark, worn in the light.</h2>
+    <p>Loomix started as a two-person label with one idea: streetwear shouldn't whisper. Every piece pairs black's quiet confidence with a flash of pink that says this one's ours. Cut, dyed, and stitched with small-batch care — no piece looks quite like the next.</p>
+  </div>
+  <div class="story-block"></div>
+</section>
+
+<section class="newsletter" id="newsletter">
+  <h2>Get the Drop First</h2>
+  <p>Join the list for early access to new releases and restocks.</p>
+  <form onsubmit="event.preventDefault(); this.querySelector('button').textContent='Joined ✓';">
+    <input type="email" placeholder="you@email.com" required>
+    <button type="submit">Notify Me</button>
+  </form>
+</section>
+
+<footer id="footer">
+  <div class="brand">
+    <span class="brand-name" style="font-size:18px;">LOOMIX</span> — Wear Your Light
+  </div>
+  <ul>
+    <li><a href="#">Instagram</a></li>
+    <li><a href="#">WhatsApp</a></li>
+    <li><a href="#">Email</a></li>
+  </ul>
+  <span>© 2026 Loomix Clothing Co.</span>
+</footer>
+
+</body>
+</html>
