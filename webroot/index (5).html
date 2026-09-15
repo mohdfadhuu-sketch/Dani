@@ -1,0 +1,666 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BISMILLA — Modest Clothing</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --cream: #fbf6ea;
+    --cream-deep: #f2e7c8;
+    --ink: #1a1510;
+    --ink-soft: #4a4038;
+    --gold: #a9781f;
+    --gold-bright: #cd9a2e;
+    --gold-pale: #ead9a3;
+    --grey: #857b6c;
+    --line: #e2d3a4;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--cream);
+    color:var(--ink);
+    font-family:'Inter',sans-serif;
+    overflow-x:hidden;
+  }
+  h1,h2,h3,.display{
+    font-family:'Cinzel',serif;
+    letter-spacing:0.01em;
+    line-height:1.05;
+    color:var(--ink);
+  }
+  a{text-decoration:none;color:inherit;}
+  ul{list-style:none;}
+
+  /* ---------- NAV ---------- */
+  header{
+    position:fixed;top:0;left:0;right:0;
+    display:flex;align-items:center;justify-content:space-between;
+    padding:16px 48px;
+    z-index:200;
+    background:rgba(251,246,234,0.92);
+    backdrop-filter:blur(6px);
+    border-bottom:1px solid var(--line);
+  }
+  .brand{display:flex;align-items:center;gap:12px;}
+  .logo-mark{
+    height:46px;width:auto;
+    flex-shrink:0;
+    filter:drop-shadow(0 1px 1px rgba(0,0,0,0.15));
+  }
+  .brand-name{font-size:20px;letter-spacing:0.06em;font-family:'Cinzel',serif;font-weight:700;color:var(--ink);}
+  nav ul{display:flex;gap:32px;font-size:14px;font-weight:500;}
+  nav a{opacity:0.8;transition:opacity 0.2s,color 0.2s;}
+  nav a:hover{opacity:1;color:var(--gold);}
+
+  .nav-shop{display:flex;align-items:center;gap:12px;}
+  .cat-dropdown{position:relative;}
+  .cat-btn{
+    display:inline-flex;align-items:center;gap:6px;
+    padding:10px 20px;
+    border:1px solid var(--ink);
+    border-radius:2px;
+    font-size:13px;font-weight:600;letter-spacing:0.02em;
+    background:var(--ink);
+    color:var(--cream);
+    cursor:pointer;
+    transition:background 0.2s,color 0.2s,border-color 0.2s;
+  }
+  .cat-dropdown:nth-child(2) .cat-btn{
+    background:transparent;
+    color:var(--ink);
+  }
+  .cat-btn:hover, .cat-dropdown:focus-within .cat-btn{
+    background:var(--gold);
+    border-color:var(--gold);
+    color:var(--cream);
+  }
+  .cat-btn svg{width:10px;height:10px;transition:transform 0.2s;}
+  .cat-dropdown:hover .cat-btn svg, .cat-dropdown:focus-within .cat-btn svg{transform:rotate(180deg);}
+  .cat-menu{
+    position:absolute;top:calc(100% + 10px);left:0;
+    min-width:180px;
+    background:var(--cream);
+    border:1px solid var(--line);
+    border-radius:4px;
+    box-shadow:0 12px 28px rgba(26,21,16,0.12);
+    padding:8px;
+    opacity:0;visibility:hidden;transform:translateY(-6px);
+    transition:opacity 0.18s ease,transform 0.18s ease,visibility 0.18s;
+  }
+  .cat-dropdown:hover .cat-menu, .cat-dropdown:focus-within .cat-menu{
+    opacity:1;visibility:visible;transform:translateY(0);
+  }
+  .cat-menu a{
+    display:block;padding:10px 12px;font-size:13px;font-weight:500;
+    border-radius:3px;color:var(--ink-soft);
+  }
+  .cat-menu a:hover{background:var(--gold-pale);color:var(--ink);}
+  .menu-toggle{display:none;font-size:24px;background:none;border:none;color:var(--ink);cursor:pointer;}
+
+  /* ---------- HERO ---------- */
+  .hero{
+    position:relative;
+    min-height:100vh;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    padding:140px 24px 90px;
+    background:
+      radial-gradient(circle at 50% 0%, var(--cream-deep) 0%, var(--cream) 55%);
+  }
+  .hero-logo{
+    width:min(300px, 55vw);
+    height:auto;
+    margin-bottom:8px;
+  }
+  .hero-eyebrow{
+    font-size:13px;
+    letter-spacing:0.18em;
+    color:var(--gold);
+    font-weight:600;
+    margin-bottom:6px;
+  }
+  .hero p{
+    max-width:460px;
+    margin:18px auto 0;
+    font-size:16px;
+    line-height:1.7;
+    color:var(--ink-soft);
+  }
+  .hero-actions{
+    margin-top:34px;
+    display:flex;
+    gap:16px;
+    align-items:center;
+    flex-wrap:wrap;
+    justify-content:center;
+  }
+  .btn-solid{
+    background:var(--ink);
+    color:var(--cream);
+    padding:15px 32px;
+    font-weight:600;
+    font-size:14px;
+    border-radius:2px;
+    display:inline-block;
+    transition:background 0.2s ease, transform 0.2s ease;
+  }
+  .btn-solid:hover{background:var(--gold); transform:translateY(-2px);}
+  .btn-ghost{
+    color:var(--ink);
+    font-size:14px;
+    font-weight:600;
+    border-bottom:1px solid var(--gold);
+    padding-bottom:3px;
+  }
+
+  /* ---------- MARQUEE ---------- */
+  .marquee{
+    background:var(--ink);
+    color:var(--gold-bright);
+    overflow:hidden;
+    white-space:nowrap;
+    padding:13px 0;
+    font-family:'Cinzel',serif;
+    font-size:15px;
+    letter-spacing:0.08em;
+    font-weight:600;
+  }
+  .marquee-track{
+    display:inline-block;
+    animation:scroll 24s linear infinite;
+  }
+  .marquee-track span{margin:0 26px;}
+  @keyframes scroll{
+    0%{transform:translateX(0);}
+    100%{transform:translateX(-50%);}
+  }
+
+  /* ---------- SECTIONS ---------- */
+  .section{padding:100px 48px;}
+  .section-alt{background:var(--cream-deep);}
+  .section-head{
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-end;
+    margin-bottom:50px;
+    flex-wrap:wrap;
+    gap:20px;
+  }
+  .section-head h2{font-size:clamp(34px,4.5vw,52px);}
+  .section-head p{max-width:320px;color:var(--ink-soft);font-size:14px;line-height:1.6;}
+  .kicker{font-size:13px;letter-spacing:0.14em;color:var(--gold);font-weight:600;margin-bottom:10px;}
+
+  .grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:22px;
+  }
+  .card{
+    background:var(--cream);
+    border:1px solid var(--line);
+    border-radius:4px;
+    overflow:hidden;
+    transition:transform 0.25s ease, box-shadow 0.25s ease;
+    scroll-margin-top:100px;
+    cursor:pointer;
+  }
+  .tap-hint{font-size:11px;color:var(--grey);margin-top:8px;letter-spacing:0.02em;}
+  .card:hover{transform:translateY(-6px); box-shadow:0 18px 32px rgba(26,21,16,0.1);}
+  .card-visual{
+    aspect-ratio:3/4;
+    position:relative;
+    display:flex;align-items:flex-end;
+    padding:16px;
+    background:linear-gradient(160deg,var(--gold-pale) 0%, var(--gold) 100%);
+    overflow:hidden;
+  }
+  .card-visual img{
+    position:absolute;inset:0;
+    width:100%;height:100%;
+    object-fit:cover;
+  }
+  .card:nth-child(2) .card-visual{background:linear-gradient(160deg,#efe2b0 0%, var(--gold-bright) 100%);}
+  .card:nth-child(3) .card-visual{background:linear-gradient(160deg,#e7d6a0 0%, #b98b26 100%);}
+  .card:nth-child(4) .card-visual{background:linear-gradient(160deg,#e7d6a0 0%, #b98b26 100%);}
+  .card:nth-child(5) .card-visual{background:linear-gradient(160deg,var(--gold-pale) 0%, var(--gold) 100%);}
+  .card:nth-child(6) .card-visual{background:linear-gradient(160deg,#efe2b0 0%, var(--gold-bright) 100%);}
+  .card:nth-child(7) .card-visual{background:linear-gradient(160deg,#e7d6a0 0%, #b98b26 100%);}
+  .card:nth-child(8) .card-visual{background:linear-gradient(160deg,var(--gold-pale) 0%, var(--gold) 100%);}
+  .card:nth-child(9) .card-visual{background:linear-gradient(160deg,#efe2b0 0%, var(--gold-bright) 100%);}
+  .card:nth-child(10) .card-visual{background:linear-gradient(160deg,#e7d6a0 0%, #b98b26 100%);}
+  .card-tag{
+    position:relative;z-index:1;
+    font-size:11px;font-weight:700;letter-spacing:0.06em;
+    background:rgba(26,21,16,0.82);
+    color:var(--cream);
+    padding:5px 10px;border-radius:20px;
+  }
+  .card-info{padding:18px 16px 22px;}
+  .card-info h3{font-family:'Inter',sans-serif;font-size:15px;font-weight:600;margin-bottom:6px;}
+  .card-info .price{color:var(--gold);font-weight:700;font-size:14px;}
+
+  /* ---------- STORY ---------- */
+  .story{
+    background:var(--ink);
+    color:var(--cream);
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    align-items:center;
+    gap:60px;
+    padding:110px 48px;
+  }
+  .story h2{color:var(--gold-bright);font-size:clamp(38px,5.5vw,68px);}
+  .story p{font-size:16px;line-height:1.75;margin-top:20px;max-width:440px;color:#e7ddc7;}
+  .story-block{
+    background:linear-gradient(160deg, #2a2214 0%, #14110d 100%);
+    border:1px solid rgba(205,154,46,0.35);
+    border-radius:6px;
+    aspect-ratio:4/5;
+    position:relative;
+    overflow:hidden;
+    display:flex;align-items:center;justify-content:center;
+  }
+  .story-block img{width:58%;height:auto;opacity:0.92;}
+
+  /* ---------- NEWSLETTER ---------- */
+  .newsletter{
+    text-align:center;
+    padding:110px 48px;
+  }
+  .newsletter h2{font-size:clamp(34px,5.5vw,58px);margin-bottom:16px;}
+  .newsletter p{color:var(--ink-soft);margin-bottom:34px;}
+  form{
+    display:flex;
+    justify-content:center;
+    gap:0;
+    max-width:440px;
+    margin:0 auto;
+    border:1px solid var(--ink);
+    border-radius:2px;
+    overflow:hidden;
+  }
+  form input{
+    flex:1;
+    background:transparent;
+    border:none;
+    padding:16px 20px;
+    color:var(--ink);
+    font-size:14px;
+  }
+  form input:focus{outline:none;}
+  form button{
+    background:var(--ink);
+    color:var(--cream);
+    border:none;
+    padding:0 26px;
+    font-weight:700;
+    font-size:14px;
+    cursor:pointer;
+    transition:background 0.2s;
+  }
+  form button:hover{background:var(--gold);}
+
+  /* ---------- PRODUCT MODAL ---------- */
+  .modal-overlay{
+    display:none;
+    position:fixed;inset:0;
+    background:rgba(20,16,11,0.55);
+    z-index:400;
+    align-items:center;justify-content:center;
+    padding:24px;
+  }
+  .modal-overlay.open{display:flex;}
+  .modal-card{
+    background:var(--cream);
+    border-radius:8px;
+    max-width:560px;
+    width:100%;
+    max-height:88vh;
+    overflow-y:auto;
+    padding:32px;
+    position:relative;
+    box-shadow:0 30px 60px rgba(20,16,11,0.3);
+  }
+  .modal-close{
+    position:absolute;top:16px;right:16px;
+    background:none;border:none;
+    font-size:20px;color:var(--ink-soft);cursor:pointer;
+  }
+  .modal-card h3{font-size:26px;margin-bottom:6px;padding-right:24px;}
+  .modal-price{font-family:'Cinzel',serif;font-weight:700;color:var(--gold);font-size:18px;margin-bottom:20px;}
+  .modal-gallery{
+    display:grid;
+    grid-template-columns:repeat(5,1fr);
+    gap:8px;
+    margin-bottom:24px;
+  }
+  .modal-gallery .img-slot{
+    aspect-ratio:1/1;
+    border:1px dashed var(--line);
+    border-radius:4px;
+    background:var(--cream-deep);
+  }
+  .modal-section-label{font-size:12px;letter-spacing:0.08em;color:var(--grey);font-weight:600;margin-bottom:10px;text-transform:uppercase;}
+  .modal-colors{display:flex;flex-wrap:wrap;gap:14px;margin-bottom:26px;}
+  .color-swatch{display:flex;flex-direction:column;align-items:center;gap:6px;background:none;border:none;cursor:pointer;font-family:'Inter',sans-serif;}
+  .color-dot{width:28px;height:28px;border-radius:50%;border:1px solid var(--line);box-shadow:0 1px 3px rgba(0,0,0,0.12);}
+  .color-swatch span{font-size:11px;color:var(--ink-soft);}
+  .color-swatch.selected .color-dot{outline:2px solid var(--gold);outline-offset:2px;}
+  .modal-order-form{display:flex;gap:0;border:1px solid var(--ink);border-radius:2px;overflow:hidden;}
+  .modal-order-form input{flex:1;background:transparent;border:none;padding:14px 16px;color:var(--ink);font-size:14px;}
+  .modal-order-form input:focus{outline:none;}
+  .modal-order-form button{background:var(--ink);color:var(--cream);border:none;padding:0 22px;font-weight:700;font-size:13px;cursor:pointer;transition:background 0.2s;}
+  .modal-order-form button:hover{background:var(--gold);}
+  .modal-confirm{font-size:13px;color:var(--gold);margin-top:10px;display:none;}
+  .modal-confirm.show{display:block;}
+
+  /* ---------- FOOTER ---------- */
+  footer{
+    border-top:1px solid var(--line);
+    padding:40px 48px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    flex-wrap:wrap;
+    gap:20px;
+    font-size:13px;
+    color:var(--ink-soft);
+  }
+  footer .brand{opacity:0.95;}
+  footer .logo-mark{height:32px;}
+  footer ul{display:flex;gap:24px;}
+  footer a:hover{color:var(--gold);}
+
+  /* ---------- MOBILE NAV ---------- */
+  .mobile-panel{
+    display:none;
+    position:fixed;top:0;left:0;right:0;bottom:0;
+    background:var(--cream);
+    z-index:300;
+    padding:100px 32px 40px;
+    flex-direction:column;
+    gap:28px;
+  }
+  .mobile-panel.open{display:flex;}
+  .mobile-panel a{font-size:17px;font-weight:600;color:var(--ink);}
+  .mobile-panel .cat-block h4{font-size:13px;letter-spacing:0.1em;color:var(--gold);margin-bottom:12px;font-weight:700;}
+  .mobile-panel .cat-block a{display:block;padding:8px 0;font-weight:500;font-size:15px;color:var(--ink-soft);}
+  .mobile-close{position:absolute;top:20px;right:24px;font-size:26px;background:none;border:none;color:var(--ink);}
+
+  @media (max-width:900px){
+    .grid{grid-template-columns:repeat(2,1fr);}
+    .story{grid-template-columns:1fr;}
+    .spotlight{grid-template-columns:1fr;}
+    .spotlight-body{padding:8px 28px 32px;}
+    nav ul, .nav-shop{display:none;}
+    .menu-toggle{display:block;}
+  }
+  @media (max-width:560px){
+    header{padding:14px 20px;}
+    .section{padding:72px 20px;}
+    .grid{grid-template-columns:1fr;gap:16px;}
+    .hero{padding:120px 20px 60px;}
+    form{flex-direction:column;border:none;gap:10px;}
+    form input,form button{border:1px solid var(--ink);border-radius:2px;padding:14px 16px;}
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    .marquee-track{animation:none;}
+    .card{transition:none;}
+  }
+
+  :focus-visible{outline:2px solid var(--gold);outline-offset:3px;}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="brand">
+    <img class="logo-mark" src="bismilla-logo.png" alt="Bismilla logo">
+    <span class="brand-name">BISMILLA</span>
+  </div>
+  <nav>
+    <ul>
+      <li><a href="#story">Story</a></li>
+      <li><a href="#newsletter">Join</a></li>
+      <li><a href="#footer">Contact</a></li>
+    </ul>
+  </nav>
+  <div class="nav-shop">
+    <div class="cat-dropdown">
+      <button class="cat-btn" type="button">Clothes
+        <svg viewBox="0 0 10 6" fill="none"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.4"/></svg>
+      </button>
+      <div class="cat-menu">
+        <a href="#nighty">Nighty</a>
+        <a href="#matching">Matching Sets</a>
+        <a href="#shawl">Shawls</a>
+      </div>
+    </div>
+  </div>
+  <button class="menu-toggle" aria-label="Menu" onclick="document.getElementById('mobilePanel').classList.add('open')">☰</button>
+</header>
+
+<div class="mobile-panel" id="mobilePanel">
+  <button class="mobile-close" aria-label="Close menu" onclick="document.getElementById('mobilePanel').classList.remove('open')">✕</button>
+  <a href="#story" onclick="document.getElementById('mobilePanel').classList.remove('open')">Story</a>
+  <a href="#newsletter" onclick="document.getElementById('mobilePanel').classList.remove('open')">Join</a>
+  <a href="#footer" onclick="document.getElementById('mobilePanel').classList.remove('open')">Contact</a>
+  <div class="cat-block">
+    <h4>CLOTHES</h4>
+    <a href="#nighty" onclick="document.getElementById('mobilePanel').classList.remove('open')">Nighty</a>
+    <a href="#matching" onclick="document.getElementById('mobilePanel').classList.remove('open')">Matching Sets</a>
+    <a href="#shawl" onclick="document.getElementById('mobilePanel').classList.remove('open')">Shawls</a>
+  </div>
+</div>
+
+<section class="hero">
+  <p class="hero-eyebrow">In His Name, We Begin</p>
+  <img class="hero-logo" src="bismilla-logo.png" alt="Bismilla — modest clothing">
+  <p>Modest fashion, made with care in Kerala. Nighties, matching sets and shawls for everyday grace.</p>
+  <div class="hero-actions">
+    <a href="#collection" class="btn-solid">Shop Clothes</a>
+  </div>
+</section>
+
+<div class="marquee">
+  <div class="marquee-track">
+    <span>NEW CLOTHING ARRIVALS WEEKLY</span><span>·</span>
+    <span>FREE DELIVERY OVER ₹1999</span><span>·</span>
+    <span>MODEST WEAR, MADE WITH CARE</span><span>·</span>
+    <span>NEW CLOTHING ARRIVALS WEEKLY</span><span>·</span>
+    <span>FREE DELIVERY OVER ₹1999</span><span>·</span>
+    <span>MODEST WEAR, MADE WITH CARE</span><span>·</span>
+  </div>
+</div>
+
+<section class="section" id="collection">
+  <div class="section-head">
+    <div>
+      <p class="kicker">Clothes</p>
+      <h2>Everyday Modest Wear</h2>
+    </div>
+    <p>Soft fabrics and quiet detailing — swap in your own product photos when you're ready to launch.</p>
+  </div>
+  <div class="grid" id="clothes-grid">
+    <div class="card" id="nighty" data-name="Cotton Nighty — Rose Gold" data-price="₹350" data-colors="Pink,Grey,White,Silver">
+      <div class="card-visual"><img src="product-1.jpg" alt="Cotton Nighty — Rose Gold" onerror="this.style.display='none'"><span class="card-tag">New</span></div>
+      <div class="card-info"><h3>Cotton Nighty — Rose Gold</h3><span class="price">₹350</span><div class="tap-hint">Tap to view</div></div>
+    </div>
+    <div class="card" id="matching" data-name="Matching Set — Ivory &amp; Gold" data-price="₹350" data-colors="Pink,Grey,White,Silver">
+      <div class="card-visual"><img src="product-2.jpg" alt="Matching Set — Ivory &amp; Gold" onerror="this.style.display='none'"><span class="card-tag">Bestseller</span></div>
+      <div class="card-info"><h3>Matching Set — Ivory &amp; Gold</h3><span class="price">₹350</span><div class="tap-hint">Tap to view</div></div>
+    </div>
+    <div class="card" id="shawl" data-name="Embroidered Shawl — Antique Gold" data-price="₹350" data-colors="Pink,Grey,White,Silver">
+      <div class="card-visual"><img src="product-3.jpg" alt="Embroidered Shawl — Antique Gold" onerror="this.style.display='none'"><span class="card-tag">New</span></div>
+      <div class="card-info"><h3>Embroidered Shawl — Antique Gold</h3><span class="price">₹350</span><div class="tap-hint">Tap to view</div></div>
+    </div>
+    <div class="card" id="nighty-2" data-name="Cotton Nighty — Blush Pink" data-price="₹350" data-colors="Pink,Grey,White,Silver">
+      <div class="card-visual"><img src="product-4.jpg" alt="Cotton Nighty — Blush Pink" onerror="this.style.display='none'"></div>
+      <div class="card-info"><h3>Cotton Nighty — Blush Pink</h3><span class="price">₹350</span><div class="tap-hint">Tap to view</div></div>
+    </div>
+    <div class="card" id="matching-2" data-name="Matching Set — Dusty Rose" data-price="₹350" data-colors="Pink,Grey,White,Silver">
+      <div class="card-visual"><img src="product-5.jpg" alt="Matching Set — Dusty Rose" onerror="this.style.display='none'"></div>
+      <div class="card-info"><h3>Matching Set — Dusty Rose</h3><span class="price">₹350</span><div class="tap-hint">Tap to view</div></div>
+    </div>
+    <div class="card" id="shawl-2" data-name="Embroidered Shawl — Pearl White" data-price="₹350" data-colors="Pink,Grey,White,Silver">
+      <div class="card-visual"><img src="product-6.jpg" alt="Embroidered Shawl — Pearl White" onerror="this.style.display='none'"></div>
+      <div class="card-info"><h3>Embroidered Shawl — Pearl White</h3><span class="price">₹350</span><div class="tap-hint">Tap to view</div></div>
+    </div>
+    <div class="card" id="nighty-3" data-name="Cotton Nighty — Sky Grey" data-price="₹350" data-colors="Pink,Grey,White,Silver">
+      <div class="card-visual"><img src="product-7.jpg" alt="Cotton Nighty — Sky Grey" onerror="this.style.display='none'"></div>
+      <div class="card-info"><h3>Cotton Nighty — Sky Grey</h3><span class="price">₹350</span><div class="tap-hint">Tap to view</div></div>
+    </div>
+    <div class="card" id="matching-3" data-name="Matching Set — Silver Lace" data-price="₹350" data-colors="Pink,Grey,White,Silver">
+      <div class="card-visual"><img src="product-8.jpg" alt="Matching Set — Silver Lace" onerror="this.style.display='none'"></div>
+      <div class="card-info"><h3>Matching Set — Silver Lace</h3><span class="price">₹350</span><div class="tap-hint">Tap to view</div></div>
+    </div>
+    <div class="card" id="shawl-3" data-name="Embroidered Shawl — Royal Pink" data-price="₹350" data-colors="Pink,Grey,White,Silver">
+      <div class="card-visual"><img src="product-9.jpg" alt="Embroidered Shawl — Royal Pink" onerror="this.style.display='none'"></div>
+      <div class="card-info"><h3>Embroidered Shawl — Royal Pink</h3><span class="price">₹350</span><div class="tap-hint">Tap to view</div></div>
+    </div>
+    <div class="card" id="nighty-4" data-name="Cotton Nighty — Ivory" data-price="₹350" data-colors="Pink,Grey,White,Silver">
+      <div class="card-visual"><img src="product-10.jpg" alt="Cotton Nighty — Ivory" onerror="this.style.display='none'"></div>
+      <div class="card-info"><h3>Cotton Nighty — Ivory</h3><span class="price">₹350</span><div class="tap-hint">Tap to view</div></div>
+    </div>
+  </div>
+</section>
+
+<section class="story" id="story">
+  <div>
+    <h2>Bismilla — begun with intention.</h2>
+    <p>We started with a simple line: begin everything in His name. That's how every nighty is stitched and every shawl is embroidered — with care, not shortcuts.</p>
+  </div>
+  <div class="story-block">
+    <img src="bismilla-logo.png" alt="Bismilla emblem">
+  </div>
+</section>
+
+<section class="newsletter" id="newsletter">
+  <h2>Get the Drop First</h2>
+  <p>Join the list for early access to new arrivals and special offers.</p>
+  <form onsubmit="event.preventDefault(); this.querySelector('button').textContent='Joined ✓';">
+    <input type="email" placeholder="you@email.com" required>
+    <button type="submit">Notify Me</button>
+  </form>
+</section>
+
+<footer id="footer">
+  <div class="brand">
+    <img class="logo-mark" src="bismilla-logo.png" alt="Bismilla logo">
+  </div>
+  <ul>
+    <li><a href="#">Instagram</a></li>
+    <li><a href="#">WhatsApp</a></li>
+    <li><a href="#">Email</a></li>
+  </ul>
+  <span>© 2026 Bismilla</span>
+</footer>
+
+<div class="modal-overlay" id="productModal">
+  <div class="modal-card">
+    <button class="modal-close" aria-label="Close" onclick="closeModal()">✕</button>
+    <h3 id="modalName">Product Name</h3>
+    <div class="modal-price" id="modalPrice">₹350</div>
+
+    <div class="modal-gallery" id="modalGallery"></div>
+
+    <p class="modal-section-label">Choose Colour</p>
+    <div class="modal-colors" id="modalColors"></div>
+
+    <p class="modal-section-label">Order — We'll Call You Back</p>
+    <form class="modal-order-form" id="modalOrderForm" onsubmit="return submitOrder(event)">
+      <input type="tel" id="modalPhone" placeholder="Your phone number" pattern="[0-9+ ]{7,15}" required>
+      <button type="submit">Submit</button>
+    </form>
+    <p class="modal-confirm" id="modalConfirm">Thank you! We'll call you shortly to confirm your order.</p>
+  </div>
+</div>
+
+<script>
+  var COLOR_HEX = {
+    'Pink': '#e7b6c2',
+    'Grey': '#9aa0a6',
+    'White': '#f7f4ea',
+    'Silver': '#c9cdd3',
+    'Gold': '#cd9a2e'
+  };
+
+  var modal = document.getElementById('productModal');
+
+  function openModal(card){
+    var name = card.getAttribute('data-name');
+    var price = card.getAttribute('data-price');
+    var colors = (card.getAttribute('data-colors') || '').split(',').filter(Boolean);
+    var img = card.querySelector('.card-visual img');
+
+    document.getElementById('modalName').textContent = name;
+    document.getElementById('modalPrice').textContent = price;
+
+    var gallery = document.getElementById('modalGallery');
+    gallery.innerHTML = '';
+    for (var i = 0; i < 5; i++){
+      var slot = document.createElement('div');
+      slot.className = 'img-slot';
+      if (i === 0 && img && img.style.display !== 'none'){
+        slot.style.backgroundImage = "url('" + img.getAttribute('src') + "')";
+        slot.style.backgroundSize = 'cover';
+        slot.style.backgroundPosition = 'center';
+        slot.style.border = 'none';
+      }
+      gallery.appendChild(slot);
+    }
+
+    var colorWrap = document.getElementById('modalColors');
+    colorWrap.innerHTML = '';
+    colors.forEach(function(c, idx){
+      var btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'color-swatch' + (idx === 0 ? ' selected' : '');
+      btn.innerHTML = '<span class="color-dot" style="background:' + (COLOR_HEX[c] || '#cccccc') + '"></span><span>' + c + '</span>';
+      btn.onclick = function(){
+        colorWrap.querySelectorAll('.color-swatch').forEach(function(s){ s.classList.remove('selected'); });
+        btn.classList.add('selected');
+      };
+      colorWrap.appendChild(btn);
+    });
+
+    document.getElementById('modalConfirm').classList.remove('show');
+    document.getElementById('modalOrderForm').style.display = 'flex';
+    document.getElementById('modalPhone').value = '';
+
+    modal.classList.add('open');
+  }
+
+  function closeModal(){
+    modal.classList.remove('open');
+  }
+
+  function submitOrder(e){
+    e.preventDefault();
+    document.getElementById('modalOrderForm').style.display = 'none';
+    document.getElementById('modalConfirm').classList.add('show');
+    return false;
+  }
+
+  document.querySelectorAll('#clothes-grid .card').forEach(function(card){
+    card.addEventListener('click', function(){ openModal(card); });
+  });
+
+  modal.addEventListener('click', function(e){
+    if (e.target === modal) closeModal();
+  });
+  document.addEventListener('keydown', function(e){
+    if (e.key === 'Escape') closeModal();
+  });
+</script>
+
+</body>
+</html>
